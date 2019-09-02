@@ -1,0 +1,22 @@
+# More configuration options here:
+# http://pyropus.ca/software/getmail/configuration.html
+
+[retriever]
+type = SimpleIMAPSSLRetriever
+server =
+mailboxes = ("Drafts","Archive","Sent")
+username = WORK_EMAIL_USER
+password = WORK_EMAIL_PASSWORD
+
+[destination]
+type = Maildir
+path = $WORK_EMAIL_TMP
+
+[options]
+verbose = 2
+message_log = ~/.getmail/log
+# do not re read messages that have already been downloaded (only download new messages)
+read_all = false
+# do not alter messages
+delivered_to = false
+received = false
