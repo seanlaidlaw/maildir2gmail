@@ -1,28 +1,47 @@
-# maildir2gmail
+# Work email to gmail (using getmail & maildir2gmail)
 
-Maildir 2 Gmail
+This is a fork of [_Maildir 2 Gmail_](https://github.com/andreasscherbaum/maildir2gmail) with an easy to use bash script that downloads the mailbox needed for maildir2gmail to do its magic.
 
-## Overview and History
+On executing the bash script it will download the workplace email account from an IMAP mail server, in the Maildir format, before using mail2gmail to push it into the specified gmail account.
 
-The _maildir2gmail.py_ script allows uploading a maildir directory into a Google Gmail account, using IMAP.
+## Requirements
 
-Scott Yang provides the original _maildir2gmail.py_ script on [his website](https://scott.yang.id.au/2009/01/migrate-emails-maildir-gmail.html). There is no license included, but according to a [Tweet](https://twitter.com/scottyang/status/794141870934720512) ([copy](./Twitter_2016-11-03.png)) the license is "provided as is" (public domain).
+1. Gmail App Password
 
-The script in this repository contains a few additional features which I found useful while migrating data, as well as additional documentation how to use it.
+To work with gmail, the normal username and password aren't accepted, instead an app password must be created which can be done [here](https://support.google.com/accounts/answer/185833).
 
-## Usage
+
+2. Software versions
+
+Requires python 2.7 and getmail 5.5, both should be avaliable in PATH
+
+
+## Why script together these two programs?
+
+Lots of workplaces and institutional email accounts remove access to what is valuble reference information once you change workplace or leave an institution. Setting up automatic forwarding of emails to get around this also loses crucical metadata such as CCs and timestamps which are valuable if you need to follow up on something after leaving a workplace. This easy to use combination of getmail and maildir2gmail removes the headache by automatically downloading new emails from the Archive, Drafts, and Sent mailboxes and copies them over to a personal gmail account.
+
+## Quickstart
+
+1. Clone the repo:
+
+`$ git clone https://github.com/seanlaidlaw/maildir2gmail.git && cd maildir2gmail`
+
+2. Edit the Quickstart_getmail.sh and add credentials for source email account and for target gmail account
 
 ```
-./maildir2gmail.py [-f] [-n] [--ignore-missing-date] [--max-size=MAX_SIZE] -u <username> -p <app-password> <maildirs>
+$ head Quickstart_getmail.sh`
+
+#!/usr/bin/env bash
+
+# Replace this part with actual credentials
+WORK_EMAIL_USER=jb01
+WORK_EMAIL_PASSWORD=myWorkPassword
+WORK_EMAIL_SERVER=email.work.ac.uk
+GMAIL_EMAIL_USER=joeblogs@gmail.com
+GMAIL_EMAIL_PASSWORD=mygmailpassword
+
 ```
 
-By default, all mails are uploaded to _All Mail_ in Gmail, following the Google concept of "never delete mails, just archive everything".
-A folder can be specified using the _-f_ option. Non-existent folders will be created automatically.
+3. Run the script
 
-Mails can be marked as Unseen (new) using the _-n_ option.
-
-Use option _--ignore-missing-date_ to ignore all messages with missing date. In this case, messages are imported to gmail with the last modification time of the file.
-
-You can set the maximum size for messages with the option _--max-size=MAX_SIZE_ (in bytes). Messages that are larger than the defined size are skipped. Default is 25 MB (Gmail limitation for IMAP).
-
-Username and Password are required, IMAP for your mailbox must be turned on (do this in the Settings for your mailbox). In addition you have to create an [app password](https://support.google.com/accounts/answer/185833).
+`$ bash Quickstart_getmail.sh`
